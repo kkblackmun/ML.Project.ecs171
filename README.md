@@ -7,3 +7,11 @@ Our group project aims to generate a Convolutional Neural Net (CNN) that will cl
 Our data is extracted from a Kaggle dataset containing 7946 train, 700 validation, 700 test, images (of 224X224 RGB jpg format): each dog breed contains at least 78 image examples. 
 
 The neural net will utilize a convolutional layer and hidden layer(s) to intake a .jpg image as input and output a breed class for the image (American Spaniel, Afghan, Bloodhound, etc.). 
+
+## Preprocessing Data
+
+As the images are of the same dimension and contain the subject in the central location of the image, most of the logistics around centering and changing the image size are not necessary. 
+
+Thus, our preprocessing is focused on normalizing the colored pixels for the neural net and simplifying the resolution of the images to improve the run time of the neural net. We will rescale the images so the pixel colors are associated with a normalized value, through the keras image preprocessing library. 
+
+We will assess if data augmentation is necessary, but we are planning on initially implementing pixel normalization and resolution  reduction.
