@@ -16,7 +16,7 @@ Thus, our preprocessing is focused on normalizing the colored pixels for the neu
 
 We will assess if data augmentation is necessary, but we are planning on initially implementing pixel normalization and resolution  reduction.
 
-## First Model and Enabling Preprocessing
+## First Model and Performing Preprocessing
 We continued forward by developing a CNN model that operates on rescaled image data, where the pixels were normalized per their RGB pixel colors.
 
 Our first model is a CNN that consists of a rescaling layer, five complexity reduction layers (MaxPooling2D- one after the rescaling and each convolutional layer), four convolutional layers, and three dense layers. As visible in our Jupyter Notebook, the training and “validation” graphs refer to the training accuracy and loss between our training set and a separate subset for testing. 
