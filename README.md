@@ -15,3 +15,10 @@ As the images are of the same dimension and contain the same features of the sub
 Thus, our preprocessing is focused on normalizing the colored pixels for the neural net and simplifying the resolution of the images to improve the run time of the neural net. We will rescale the images so the pixel colors are associated with a normalized value, through the keras image preprocessing library. 
 
 We will assess if data augmentation is necessary, but we are planning on initially implementing pixel normalization and resolution  reduction.
+
+## First Model and Enabling Preprocessing
+We continued forward by developing a CNN model that operates on rescaled image data, where the pixels were normalized per their RGB pixel colors.
+
+Our first model is a CNN that consists of a rescaling layer, five complexity reduction layers (MaxPooling2D- one after the rescaling and each convolutional layer), four convolutional layers, and three dense layers. As visible in our Jupyter Notebook, the training and “validation” graphs refer to the training accuracy and loss between our training set and a separate subset for testing. 
+
+It has been labeled as validation, but it is a separate set from the training and was used to test the efficacy of the neural net. As one can tell from the graphs, since our model is increasing in complexity, but our accuracy is about 50% (random chance equivalent), and our loss is significantly higher than our training loss: the information suggests that our model may be currently overfit to our training data. We will adjust for this by creating another model- and potentially increasing more preprocessing in regards to decreasing the resolutions so we can improve speed and increase the layers in the model.
