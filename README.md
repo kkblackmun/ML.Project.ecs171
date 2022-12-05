@@ -12,8 +12,6 @@ Sadly we had not realized early on that the total number of images per breed was
 
 ## Data Exploration
 
-(Data_Exploration.ipynb)
-
 Our data is extracted from a Kaggle dataset containing 7946 train, 700 validation, 700 test, images (of 224X224 RGB jpg format): each dog breed contains at least 78 image examples.
 
 The neural net will utilize a convolutional layer and hidden layer(s) to intake a .jpg image as input and output a breed class for the image (American Spaniel, Afghan, Bloodhound, etc.).
@@ -98,7 +96,45 @@ cnnModel.add(Dense(len(Classes), activation='softmax'))
 
 ## Model 3 70 Breeds aug
 
-put some more stuff here
+For Model 3 we added data augmentation layers consisting of RandomFlip, RandomRotation, and RandomZoom. By augmenting the original images we can create additional testing date while still only having the original 100 photos per breed. Again, here we are using our full data set of 70 breeds.
+
+![image info](./figs/model3_summary.png)
+
+```python
+#Source Used for Data Augmentation
+#https://www.tensorflow.org/tutorials/images/data_augmentation
+
+data_augmentation = tf.keras.Sequential([
+  layers.RandomFlip("horizontal"),
+  layers.RandomRotation(0.3),
+  layers.RandomZoom(0.2)
+])
+
+cnnModel = Sequential()
+
+cnnModel.add(data_augmentation)
+
+cnnModel.add(Rescaling((1. / 1), input_shape = (224, 224, 3)))
+cnnModel.add(Conv2D(64, 3, padding = 'same', activation = 'relu'))
+cnnModel.add(MaxPooling2D((2, 2)))
+cnnModel.add(Conv2D(64, 3, padding = 'same', activation = 'relu'))
+cnnModel.add(MaxPooling2D((2, 2)))
+cnnModel.add(Conv2D(128, 3, padding = 'same', activation = 'relu'))
+cnnModel.add(MaxPooling2D((2, 2)))
+cnnModel.add(Conv2D(256, 3, padding = 'same', activation = 'relu'))
+cnnModel.add(MaxPooling2D((2, 2)))
+cnnModel.add(Conv2D(512, 3, padding = 'same', activation = 'relu'))
+cnnModel.add(MaxPooling2D((2, 2)))
+
+
+cnnModel.add(Flatten())
+
+cnnModel.add(Dense(512, activation='relu'))
+cnnModel.add(Dense(256, activation='relu'))
+cnnModel.add(Dense(128, activation='relu'))
+cnnModel.add(Dense(len(Classes), activation='softmax'))
+
+```
 
 ## Results
 
@@ -132,8 +168,24 @@ For good measure we added an additional convolutional layer and two additional d
 
 #### Model 3
 
+With newfound information we were determined to create an accurate model for our entire data set. To do this we researched a method called data augmentation. Data Augmentation is when you transform the image to look at the same data in a different way. This was accomplished by adding three augmentation layers to increase the number of images the NN had to train on. This worked to our benefit, compared to Model 1 it performs 20% better increasing our accuracy to just below 60% with all 70 breeds.
 
+Augmentation was a quick crutch to our lack of training data. However, it does not make up for the shier lack of images we started with. A better model would have more real images of dogs and would not have to so heavily rely on data augmentation as heavily.
 
 ## Conclusion
 
+Overall we believe that with the data set we selected we were able to make a model that gave a respectable result. As a group we were able to adjust to the challenges that our data set provided. Given more time we could have utilized web scraping to increase the size of our training data. Even with this we would still want to use our augmentation because this would still allow our NN to identify dogs that may be photographed in less then conventional angles. We also could have explored the convolutional NN layers API more extensively. We have only scraped the surface of the tools that were available to us. This project was exciting as it mimicked real world application of NN and image recognition. Many of us did not realize how complex image classification is and leave the project with a more nuanced understanding of Image classification using NN works.   
+
 ## Collaboration Section
+
+Yuan Zhai - Main designer of the NN models. Majority writer of the code past the Data exploration stage.
+
+Zachary Hom - Data exploration, Wrote code for alternative method of image augmentation, ReadMe co-editor/writer.
+
+Nathan Diaz - Data exploration co-code writer,  ReadME co-editor/writer, notebook cleaner.
+
+Jion Hwang - Data exploration, researching data augmentation, co-editing/writing Readme.
+
+Kiyomi Blackmun - Group organizer and git hub manager, README co-editing/writing and style lead.
+
+Kai Janowicz - Data exploration co-code writer, ReadME co-editor/writer, notebook cleaner.
