@@ -148,7 +148,7 @@ cnnModel.add(Dense(len(Classes), activation='softmax'))
 
 ### Model 3 Results
 
-![image info](./figs/70breeds_aug.png)
+![image info](./figs/70breeds_augs.png)
 
 ## Discussion
 
