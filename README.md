@@ -150,7 +150,7 @@ The graph of the model’s results follow the same structure as Model 1, and we 
 
 ### Model 3 Results
 
-![image info](./figs/70breeds_augs.png)
+![image info](./figs/70breeds_augs3.0.png)
 
 The graph of the third model’s results follow the same procedure of the graphs prior to it, and depicts an overall accuracy of 55%, and a training loss of approximately 0.06 across 50 epochs.
 
