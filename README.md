@@ -9,12 +9,6 @@ As man’s best friends, dogs are integral in many people’s lives and are wide
 Our data was acquired through Kaggle.com, and contains 7946 train, 700 validation, and 700 test images. As such, each dog breed file has at least 65 (american hairless) to 198 (Shih-Tzu) training images [generating a total range of 85-218 images per breed]. 
 Plotted below are the number of training images per breed, the range mentioned above factors in the images in the test and validation folder.
 
-'''
-Our data is extracted from a Kaggle dataset containing 7946 train, 700 validation, 700 test, images (of 224X224 RGB jpg format): each dog breed contains at least 78 image examples.
-
-The neural net will utilize a convolutional layer and hidden layer(s) to intake a .jpg image as input and output a breed class for the image (American Spaniel, Afghan, Bloodhound, etc.).
-'''
-
 ![image info](./figs/breed_img_counts.png)
 
 After visualizing the information (via Data_Exploration.ipynb), we assessed the images which were all of 224X224 RGB jpg format, and required no resizing, cropping, or initial normalization to standardize the images. From our image data, we assessed at least one convolutional layer and hidden layer(s) would be needed to intake a .jpg image as input and output a breed class for the image (American Spaniel, Afghan, Bloodhound, etc.).
@@ -36,7 +30,7 @@ Our first model is a CNN that consists of a rescaling layer, five complexity red
 
 It has been labeled as validation, but it is a separate set from the training and was used to test the efficacy of the neural net. As one can tell from the graphs, since our model is increasing in complexity, but our accuracy is about 50% (random chance equivalent), and our loss is significantly higher than our training loss: the information suggests that since our model is maintaining a steady 50% loss, the model's failings may be accredited to not enough training data. We will adjust for this by performing data augmentation on our current images (blurring the images, rotating the images, etc), running it through our current model, and creating another model if necessary.
 
-## Model 1 70 Breeds- No Augmentation (No-Aug)
+## Model 1: 70 Breeds- No Augmentation (No-Aug)
 
 This is the first CNN that we thought was sufficient to train our model. It is made up of one rescaling layer, 5 MaxPooling layer, 4 Convolutional layers, and 2 dense layers. 
 
@@ -63,7 +57,7 @@ cnnModel.add(Dense(512, activation='relu'))
 cnnModel.add(Dense(70, activation='softmax'))
 ```
 
-## Model 2 20 Breeds- No-Aug
+## Model 2: 20 Breeds- No-Aug
 
 We adjusted our first model by limiting our dataset to only the initial 20 classes to determine the model’s classification performance. Additionally, our second model, though very similar to the first, contains additional MaxPooling, Convolutional, and two dense layers (link: Model_2_20breeds.ipynb).
 
@@ -92,7 +86,7 @@ cnnModel.add(Dense(128, activation='relu'))
 cnnModel.add(Dense(len(Classes), activation='softmax'))
 ```
 
-## Model 3 70 Breeds aug
+## Model 3: 70 Breeds Aug
 
 For model 3, we utilized data augmentation layers consisting of RandomFlip, RandomRotation, and RandomZoom to generate significantly more images of the ideal size. By augmenting the original images we can create additional testing data to improve the accuracy and learning of our CNN. The figures below contain an excerpt of code for our model.
 
@@ -140,25 +134,25 @@ cnnModel.add(Dense(len(Classes), activation='softmax'))
 
 ![image info](./figs/70breeds_no_aug.png)
 
-Through a graphic method, we plotted the accuracy and validation loss of the model to training and validation data- providing a point for every epoch. The first model depicts an average accuracy of 40% and an average cost of 0.137 across 50 epochs.
+Through a graphic method, we plotted the accuracy and validation loss of the model to training and validation data- providing a point for every epoch. The first model depicts a final accuracy of 37% and an average cost of 0.137 across 50 epochs (Using Binary Cross Entropy).
 
 ### Model 2 Results
 
 ![image info](./figs/20breeds_no_aug.png)
 
-The graph of the model’s results follow the same structure as Model 1, and we found that the limiting of the model’s input data to 20 classes pushed our accuracy to approximately 70%, and our training loss to less than 0.25 across 50 epochs.
+The graph of the model’s results follow the same structure as Model 1, and we found that the limiting of the model’s input data to 20 classes pushed our accuracy to approximately 70%, and our training loss to less than 0.25 across 50 epochs (Using Binary Cross Entropy).
 
 ### Model 3 Results
 
 ![image info](./figs/70breeds_augs3.0.png)
 
-The graph of the third model’s results follow the same procedure of the graphs prior to it, and depicts an overall accuracy of 55%, and a training loss of approximately 0.06 across 50 epochs.
+The graph of the third model’s results follow the same procedure of the graphs prior to it, and depicts an overall accuracy of 55%, and a training loss of approximately 3.7341 across 160 epochs (using Sparse Categorical Cross Entropy).
 
 ## Discussion
 
 ### CNN Design
 
-Our aim was to create a NN that would allow us to classify images of dogs by their breed. To do this we decided to use a series of convolutional layers along with our dense layers. Keras Convolutional layers API gives us multiple tools to efficiently analyze 2D images. Convolutional layers are use full because they allow for recognition of edges and shapes which is perfect for image classification. Another use full tool is MaxPulling which reduces the number of dimensions of the feature map leading to a reduction in required computation. As you may have noticed all of the layers use the Relu activation function. Relu was chosen because in our research on image classification relu was noted as being all around great activation function.
+When we first considered the dog image classification problem, our choice to utilize a neural network was rather intuitive to us, due to the large number of classes and the geometric nature of the images. Beginning with a simple split of training and test data, we decided to use a series of convolutional and dense layers. Through the use of the Tensorflow Keras library, we used up to 5 convolutional layers which systematically applied learned filters to highlight the presence of randomly chosen features in the images (low-level or high level). Through the addition of MaxPooling layers after each convolution, the maximum value for each patch on the feature map is stored and used to reduce the dimensionality of the input image by decreasing the number of pixels in the output image. This resulted in the dimensionality of our images being reduced 5 times in order to ensure high and low-level features were detected effectively. However, when our model was not performing well (AKA: towards the left side of the fitting graph presented in lecture ECS 171), we realized we needed to adjust our model, but we needed to adjust our data as well.
 
 ### Result Breakdown
 
@@ -172,17 +166,17 @@ For good measure we added an additional convolutional layer and two additional d
 
 #### Model 3
 
-With newfound information we were determined to create an accurate model for our entire data set. To do this we researched a method called data augmentation. Data Augmentation is when you transform the image to look at the same data in a different way. This was accomplished by adding three augmentation layers to increase the number of images the NN had to train on. This worked to our benefit, compared to Model 1 it performs 10% better increasing our accuracy to just below 50% with all 70 breeds.
+With newfound information we were determined to create an accurate model for our entire data set. To do this we researched a method called data augmentation. Data Augmentation is when you transform the image to look at the same data in a different way. This was accomplished by adding three augmentation layers to increase the number of images the CNN had to train on. This worked to our benefit, compared to Model 1 it performs 10% better increasing our accuracy to just below 50% with all 70 breeds.
 
 Augmentation was a quick crutch to our lack of training data. However, it does not make up for the shier lack of images we started with. A better model would have more real images of dogs and would not have to so heavily rely on data augmentation as heavily.
 
 ## Conclusion
 
-Overall we believe that with the data set we selected we were able to make a model that gave a respectable result. As a group we were able to adjust to the challenges that our data set provided. Given more time we could have utilized web scraping to increase the size of our training data. Even with this we would still want to use our augmentation because this would still allow our NN to identify dogs that may be photographed in less then conventional angles. We also could have explored the convolutional NN layers API more extensively. We have only scraped the surface of the tools that were available to us. This project was exciting as it mimicked real world application of NN and image recognition. Many of us did not realize how complex image classification is and leave the project with a more nuanced understanding of Image classification using NN works.   
+Our group generated a sufficient CNN to classify a wide range of dog breed classes. Given that it was the first time many of us worked with colored images, neural nets, and data analytics, we were excited to produce a model that worked to achieve a practical solution. Additionally, we learned several practical means of utilizing neural nets and were able to adjust to obstacles as a group. Given more time, we would have utilized web scraping to increase the size of our training data with the implemented data augmentation. The inclusion of both would allow for a significant increase in data and several unconventional angles of dogs that may help the CNN identify features it otherwise would not have. We also believe we could have explored the CNN API more extensively in order to identify more innovative tool sets for classification, data augmentation, and processing. Additionally, we made an error with the loss function used in our neural nets. Upon reflection, we would have used Sparse Cross Entropy for all of our neural nets because binary cross entropy is used for the classification of only 2 classes, while sparse cross entropy better accounts for multiple classification. By using real data, our team was excited to develop a model that mimicked real world application of CNNs and image classification,: and we are excited to pursue the various tools currently unknown to us. Many of us did not realize how complex image classification is and left the project with a more nuanced understanding of image classification using CNNs.
 
 ## Collaboration Section
 
-Yuan Zhai - Main designer of the NN models. Majority writer of the code past the Data exploration stage.
+Yuan Zhai - Main designer of the CNN models. Majority writer of the code past the Data exploration stage.
 
 Zachary Hom - Data exploration, Wrote code for alternative method of image augmentation, ReadMe co-editor/writer.
 
