@@ -172,7 +172,7 @@ For good measure we added an additional convolutional layer and two additional d
 
 #### Model 3
 
-With newfound information we were determined to create an accurate model for our entire data set. To do this we researched a method called data augmentation. Data Augmentation is when you transform the image to look at the same data in a different way. This was accomplished by adding three augmentation layers to increase the number of images the NN had to train on. This worked to our benefit, compared to Model 1 it performs 20% better increasing our accuracy to just below 60% with all 70 breeds.
+With newfound information we were determined to create an accurate model for our entire data set. To do this we researched a method called data augmentation. Data Augmentation is when you transform the image to look at the same data in a different way. This was accomplished by adding three augmentation layers to increase the number of images the NN had to train on. This worked to our benefit, compared to Model 1 it performs 10% better increasing our accuracy to just below 50% with all 70 breeds.
 
 Augmentation was a quick crutch to our lack of training data. However, it does not make up for the shier lack of images we started with. A better model would have more real images of dogs and would not have to so heavily rely on data augmentation as heavily.
 
